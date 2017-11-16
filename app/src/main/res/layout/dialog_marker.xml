@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/dialog_tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add a Comment"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:gravity="center_horizontal"
+        android:textColor="@android:color/black"/>
+
+    <EditText
+        android:id="@+id/dialog_et_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="Enter your text here"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/dialog_tv_title"/>
+
+    <Button
+        android:id="@+id/dialog_btn_cancel"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:layout_below="@id/dialog_et_comment"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+    <Button
+        android:id="@+id/dialog_btn_save"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:layout_below="@id/dialog_et_comment"
+        android:layout_toRightOf="@id/dialog_btn_cancel"
+        android:layout_toEndOf="@id/dialog_btn_cancel"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="50dp"
+        android:layout_marginStart="50dp"/>
+</RelativeLayout>
