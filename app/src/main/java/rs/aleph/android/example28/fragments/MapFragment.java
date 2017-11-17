@@ -1,6 +1,7 @@
 package rs.aleph.android.example28.fragments;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
@@ -15,9 +16,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -288,17 +293,42 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
         //dodavajuci click listener
         map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
-            public void onMapClick(LatLng latLng) {
-                map.addMarker(new MarkerOptions()
-                        .title("YOUR_POSITON")
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-                        .position(latLng));
-                home.setFlat(true);
+            public void onMapClick(final LatLng latLng) {
 
-                CameraPosition cameraPosition = new CameraPosition.Builder()
-                        .target(latLng).zoom(14).build();
+                final Dialog dialog = new Dialog(getActivity());
+                dialog.setContentView(R.layout.dialog_marker);
+                TextView title = dialog.findViewById(R.id.dialog_tv_title);
+                final EditText comment = dialog.findViewById(R.id.dialog_et_comment);
+                Button cancel = dialog.findViewById(R.id.dialog_btn_cancel);
+                Button save = dialog.findViewById(R.id.dialog_btn_save);
 
-                map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                dialog.show();
+
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+
+                save.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String finalComment = comment.getText().toString();
+                        map.addMarker(new MarkerOptions()
+                                .title("YOUR_MARKER")
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                                .position(latLng)).setTag(finalComment);
+                        home.setFlat(true);
+                        home.setTag(finalComment);
+
+                        CameraPosition cameraPosition = new CameraPosition.Builder()
+                                .target(latLng).zoom(14).build();
+
+                        map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                        dialog.dismiss();
+                    }
+                });
             }
         });
 
@@ -306,7 +336,11 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
         map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                Toast.makeText(getActivity(), marker.getTitle(), Toast.LENGTH_SHORT).show();
+                try {
+                    String comment = (String) marker.getTag();
+                    Toast.makeText(getActivity(), comment, Toast.LENGTH_SHORT).show();
+                }catch (NullPointerException e){}
+
                 return true;
             }
         });
@@ -336,14 +370,16 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
     }
 
     private void addMarker(Location location) {
-        LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
+        final LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
 
         if (home != null) {
             home.remove();
         }
 
+
+
         home = map.addMarker(new MarkerOptions()
-                .title("YOUR_POSITON")
+                .title("Marker added")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
                 .position(loc));
         home.setFlat(true);
@@ -352,7 +388,10 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
                 .target(loc).zoom(14).build();
 
         map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
     }
+
+
 
     /**
      *

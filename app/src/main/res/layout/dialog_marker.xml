@@ -8,7 +8,7 @@
         android:id="@+id/dialog_tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add a Comment"
+        android:text="@string/add_a_comment"
         android:textSize="25sp"
         android:textStyle="bold"
         android:gravity="center_horizontal"
@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="text"
-        android:hint="Enter your text here"
+        android:hint="@string/enter_your_text_here"
         android:layout_marginTop="10dp"
         android:layout_below="@id/dialog_tv_title"/>
 
@@ -28,7 +28,7 @@
         android:id="@+id/dialog_btn_cancel"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:text="Cancel"
+        android:text="@string/cancel_item"
         android:layout_below="@id/dialog_et_comment"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"/>
@@ -37,7 +37,7 @@
         android:id="@+id/dialog_btn_save"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:text="Save"
+        android:text="@string/save"
         android:layout_below="@id/dialog_et_comment"
         android:layout_toRightOf="@id/dialog_btn_cancel"
         android:layout_toEndOf="@id/dialog_btn_cancel"
